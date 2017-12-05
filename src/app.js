@@ -1,3 +1,12 @@
 const waves = require('./core/waves');
-for (let i = 0; i < 1000; i++)
-    console.log(waves.buildRawAddressFromSeed('sample twin final long merry stable grace margin wrap assault income put like kite morning'));
+const seed = require('./core/seed');
+
+seed.getSeedListFromWords([
+    ['book'],
+    ['Darcrus', 'token', 'sell'],
+    ['question', ' where', 'answer'],
+    ['train'],
+    ['beach', 'waves', 'star'],
+    ['phiz', 'gawp', 'gawk', 'hail', 'wily'],
+    ['eye']
+]);
