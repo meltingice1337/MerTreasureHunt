@@ -1,5 +1,5 @@
-const constants = require('./constants');
-const converters = require('./converters');
+const constants = require('../utils/constants');
+const converters = require('../utils/converters');
 const blake2b = require('blakejs').blake2b;
 const keccak_256 = require('js-sha3').keccak256;
 const CryptoJS = require('crypto-js');
