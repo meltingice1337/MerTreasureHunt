@@ -1,6 +1,6 @@
 [
     ["book"],
-    ["darcrus", "token", "sell"],
+    ["token", "darcrus", "sell"],
     ["question", "where", "answer"],
     ["train"],
     ["beach", "waves", "star"],
