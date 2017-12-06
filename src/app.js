@@ -63,7 +63,7 @@ function findSeed() {
 function buildPartialSeedListsFromSeedList() {
     const seedList = fs.readFileSync(seedListPath, 'utf-8');
     const words = [
-        ['catel']
+        ['wallet']
     ]
     let newSeedList = seed.buildPartialSeedListFromSeedList(JSON.parse(seedList), words);
     saveSeedList(newSeedList);
