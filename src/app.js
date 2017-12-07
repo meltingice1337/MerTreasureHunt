@@ -4,8 +4,7 @@ const crypto = require('./core/crypto');
 const seed = require('./core/seed');
 const Money = require('./core/money').Money;
 const Currency = require('./core/money').Currency;
-const asset = require('./core/asset');
-const fetch = require('node-fetch');
+const Transaction = require('./core/transaction');
 
 const seedListPath = './src/config/seedlist.json';
 const targetAddress = '3P5eMDcv5H3v9pR7Qg5yYKyma4cDm92Zdu1';
@@ -72,31 +71,21 @@ function buildPartialSeedListsFromSeedList() {
 function sendMercury(publicKey, privateKey) {
 
     let amount = new Money('50000', Currency.MER);
-    let fee = new Money('0.001', Currency.WAVES);
+    let sender = {
+        publicKey: publicKey,
+        privateKey: privateKey
+    };
+    let transaction = new Transaction(sender, recipientAddress, amount);
 
-    let transaction = asset.createAssetTransferTransaction(
-        {
-            recipient: recipientAddress,
-            amount: amount,
-            fee: fee
-        },
-        {
-            publicKey: publicKey,
-            privateKey: privateKey
-        }
-    )
-
-    fetch('https://nodes.wavesnodes.com/assets/broadcast/transfer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(transaction)
-    }).then(function (data) {
-        if (data.ok) {
-            console.log('Transaction sent successfully !');
-        } else {
-            console.log('Error', data.status, data.statusText);
-        }
-    });
+    transaction
+        .send(sender, recipientAddress)
+        .then(function (data) {
+            if (data.ok) {
+                console.log('Transaction sent successfully !');
+            } else {
+                console.log('Error', data.status, data.statusText);
+            }
+        });
 }
 
 function buildPartialSeedListsFromWords() {
