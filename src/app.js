@@ -29,8 +29,8 @@ function processArgs(arg) {
         default:
             console.log(`
             Available commands: \n
-            from-words    - build partial seed list from words in the config
-            from-seedlist - build partial seed list from another seedlist and words
+            from-words    - build seed list from words in the config
+            from-seedlist - build seed list from another seedlist and words
             find-seed     - find the seed that matches the target address
             `);
             break;
