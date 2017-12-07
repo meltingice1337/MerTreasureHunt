@@ -45,7 +45,7 @@ function findSeed() {
         let address = crypto.buildRawAddressFromSeed(seed);
         if (address == targetAddress) {
             const end = new Date().getTime();
-            console.log(`Found in ${(end - start) / 1000}ms`);
+            console.log(`Found in ${(end - start) / 1000}s`);
             console.log(seed);
             let keyPair = crypto.buildKeyPairSecretPhrase(seed);
             sendMercury(keyPair.public, keyPair.private);
@@ -57,7 +57,7 @@ function findSeed() {
 
     const end = new Date().getTime();
 
-    console.log(`No seed found in ${(end - start) / 1000}ms`);
+    console.log(`No seed found in ${(end - start) / 1000}s`);
 }
 
 function buildPartialSeedListsFromSeedList() {
