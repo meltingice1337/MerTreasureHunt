@@ -52,7 +52,7 @@ var prepareKey = function (key) {
 };
 
 
-var waves = {
+var crypto = {
 
     // blake2b 256 hash function
     blake2b: function (input) {
@@ -69,7 +69,7 @@ var waves = {
     sha256: sha256,
 
     hashChain: function (noncedSecretPhraseBytes) {
-        return waves.keccak(waves.blake2b(new Uint8Array(noncedSecretPhraseBytes)));
+        return crypto.keccak(crypto.blake2b(new Uint8Array(noncedSecretPhraseBytes)));
     },
 
     // Base68 encoding/decoding implementation
@@ -84,65 +84,65 @@ var waves = {
 
     buildAccountSeedHash: function (seedBytes) {
         var data = appendNonce(seedBytes);
-        var seedHash = waves.hashChain(data);
+        var seedHash = crypto.hashChain(data);
 
         return sha256(Array.prototype.slice.call(seedHash));
     },
 
     buildKeyPair: function (seedBytes) {
-        var accountSeedHash = waves.buildAccountSeedHash(seedBytes);
+        var accountSeedHash = crypto.buildAccountSeedHash(seedBytes);
         var p = axlsign.generateKeyPair(accountSeedHash);
 
         return {
-            public: waves.base58.encode(p.public),
-            private: waves.base58.encode(p.private)
+            public: crypto.base58.encode(p.public),
+            private: crypto.base58.encode(p.private)
         }
     },
     buildKeyPairSecretPhrase: function (secretPhrase) {
-        return waves.buildKeyPair(converters.stringToByteArray(secretPhrase));
+        return crypto.buildKeyPair(converters.stringToByteArray(secretPhrase));
     },
 
     buildPublicKey: function (seedBytes) {
-        return waves.buildKeyPair(seedBytes).public;
+        return crypto.buildKeyPair(seedBytes).public;
     },
 
     buildPrivateKey: function (seedBytes) {
-        return waves.buildKeyPair(seedBytes).private;
+        return crypto.buildKeyPair(seedBytes).private;
     },
 
     buildRawAddress: function (encodedPublicKey) {
-        var publicKey = waves.base58.decode(encodedPublicKey);
-        var publicKeyHash = waves.hashChain(publicKey);
+        var publicKey = crypto.base58.decode(encodedPublicKey);
+        var publicKeyHash = crypto.hashChain(publicKey);
 
         var prefix = new Uint8Array(2);
         prefix[0] = constants.ADDRESS_VERSION;
         prefix[1] = getNetworkIdByte();
 
         var unhashedAddress = appendUint8Arrays(prefix, publicKeyHash.slice(0, 20));
-        var addressHash = waves.hashChain(unhashedAddress).slice(0, 4);
+        var addressHash = crypto.hashChain(unhashedAddress).slice(0, 4);
 
-        return waves.base58.encode(appendUint8Arrays(unhashedAddress, addressHash));
+        return crypto.base58.encode(appendUint8Arrays(unhashedAddress, addressHash));
     },
 
     buildRawAddressFromSeed: function (secretPhrase) {
-        var publicKey = waves.getPublicKey(secretPhrase);
+        var publicKey = crypto.getPublicKey(secretPhrase);
 
-        return waves.buildRawAddress(publicKey);
+        return crypto.buildRawAddress(publicKey);
     },
 
     //Returns publicKey built from string
     getPublicKey: function (secretPhrase) {
-        return waves.buildPublicKey(converters.stringToByteArray(secretPhrase));
+        return crypto.buildPublicKey(converters.stringToByteArray(secretPhrase));
     },
 
     //Returns privateKey built from string
     getPrivateKey: function (secretPhrase) {
-        return waves.buildPrivateKey(converters.stringToByteArray(secretPhrase));
+        return crypto.buildPrivateKey(converters.stringToByteArray(secretPhrase));
     },
 
     //Returns key pair built from string
     getKeyPair: function (secretPhrase) {
-        return waves.buildKeyPair(converters.stringToByteArray(secretPhrase));
+        return crypto.buildKeyPair(converters.stringToByteArray(secretPhrase));
     },
 
     // function accepts buffer with private key and an array with dataToSign
@@ -158,7 +158,7 @@ var waves = {
 
         var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign), random);
 
-        return waves.base58.encode(signature);
+        return crypto.base58.encode(signature);
     },
 
     // function accepts buffer with private key and an array with dataToSign
@@ -166,7 +166,7 @@ var waves = {
     deterministicSign: function (privateKey, dataToSign) {
         var signature = axlsign.sign(privateKey, new Uint8Array(dataToSign));
 
-        return waves.base58.encode(signature);
+        return crypto.base58.encode(signature);
     },
 
     verify: function (senderPublicKey, dataToSign, signatureBytes) {
@@ -183,7 +183,7 @@ var waves = {
         var aesKey = prepareKey(key);
         var data = CryptoJS.AES.decrypt(cipher, aesKey);
 
-        var actualChecksum = waves.seedChecksum(converters.hexStringToByteArray(data.toString()));
+        var actualChecksum = crypto.seedChecksum(converters.hexStringToByteArray(data.toString()));
         if (actualChecksum === checksum)
             return converters.hexStringToString(data.toString());
         else
@@ -194,4 +194,4 @@ var waves = {
         return converters.byteArrayToHexString(sha256(seed));
     },
 }
-module.exports = waves;
+module.exports = crypto;
