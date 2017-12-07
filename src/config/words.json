@@ -1,7 +1,7 @@
 [
     ["book"],
     ["token", "darcrus", "sell"],
-    ["question", "where", "answer"],
+    ["question", "where", "answer", "what"],
     ["train"],
     ["beach", "waves", "starfish"],
     ["phiz", "gawp", "gawk", "hail", "wily"],
