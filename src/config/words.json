@@ -1,15 +1,15 @@
 [
     ["book"],
     ["token", "darcrus", "sell"],
-    ["question", "where", "answer", "what"],
+    ["question", "planet","where", "answer", "what"],
     ["train"],
     ["waves", "beach", "starfish"],
-    ["phiz", "gawp", "gawk", "hail", "wily"],
+    ["phiz", "gawp", "gawk", "hail", "wily", "hawk"],
     ["eye"],
     ["wallet"],
     ["hangover"],
     ["seven"],
     ["march"],
-    ["merhunt", "treasure", "hunt"],
+    ["merhunt", "mercury", "jupiter"],
     ["sigwo"]
 ]
