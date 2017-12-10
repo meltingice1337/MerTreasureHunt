@@ -64,7 +64,9 @@ function buildPartialSeedListsFromSeedList() {
     const words = [
         ['wallet']
     ]
-    let newSeedList = seed.buildPartialSeedListFromSeedList(JSON.parse(seedList), words);
+    let newSeedList = seed
+        .buildPartialSeedListFromSeedList(JSON.parse(seedList), words)
+
     saveSeedList(newSeedList);
 }
 
@@ -92,9 +94,11 @@ function buildPartialSeedListsFromWords() {
     const words = require('./config/words.json');
     const wordsEx = require('./config/words_ex.json');
 
-    let seedList = seed.buildPartialSeedListFromWords(words);
-    seedList = seedList.concat(seed.buildPartialSeedListFromWords(wordsEx));
-
+    let seedList = seed
+        .buildPartialSeedListFromWords(words)
+        .concat(seed.buildPartialSeedListFromWords(wordsEx))
+        .filter((item, index, originalArr) => originalArr.indexOf(item) == index);
+        
     saveSeedList(seedList);
 }
 
