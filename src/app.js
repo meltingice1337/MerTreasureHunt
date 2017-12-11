@@ -94,11 +94,13 @@ function buildPartialSeedListsFromWords() {
     const words = require('./config/words.json');
     const wordsEx = require('./config/words_ex.json');
 
+    const start = Date.now();
     let seedList = seed
         .buildPartialSeedListFromWords(words)
         .concat(seed.buildPartialSeedListFromWords(wordsEx))
         .filter((item, index, originalArr) => originalArr.indexOf(item) == index);
-        
+    const end = Date.now();
+    console.log('It took: ' + (end -start)/1000 + 's');
     saveSeedList(seedList);
 }
 
