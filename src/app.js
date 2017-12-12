@@ -60,13 +60,15 @@ function findSeed() {
 }
 
 function buildPartialSeedListsFromSeedList() {
+    const start = new Date();
     const seedList = fs.readFileSync(seedListPath, 'utf-8');
     const words = [
-        ['wallet']
+        ['catel']
     ]
     let newSeedList = seed
         .buildPartialSeedListFromSeedList(JSON.parse(seedList), words)
-
+    const end = new Date();
+    console.log(`It took ${(end - start) / 1000}s`)
     saveSeedList(newSeedList);
 }
 
@@ -100,7 +102,7 @@ function buildPartialSeedListsFromWords() {
         .concat(seed.buildPartialSeedListFromWords(wordsEx))
         .filter((item, index, originalArr) => originalArr.indexOf(item) == index);
     const end = Date.now();
-    console.log('It took: ' + (end -start)/1000 + 's');
+    console.log('It took: ' + (end - start) / 1000 + 's');
     saveSeedList(seedList);
 }
 
